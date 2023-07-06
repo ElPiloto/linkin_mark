@@ -1,7 +1,7 @@
-import graphviz
 import os
 import pathlib
 
+import graphviz
 import marko
 
 _DEFAULT_DIR = '/Users/lpiloto/code/web/luispiloto/content/pizzle-wiki/markdown/'
