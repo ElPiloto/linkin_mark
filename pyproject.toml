@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "linkin_mark"
+version = "0.0.1"
+description = "It's like Linkin Park but we mix links and markdown instead of rap and rock."
+authors = ["Luis Piloto <luis.r.piloto@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+marko = "^2.0.0"
+graphviz = "^0.20.1"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
