@@ -22,7 +22,7 @@ purposes such as visualization.
 
 ### Relative Paths
 ```
-  links = lm.get_relativized_links('/path/to/dir/of/md/files/')
+  links = lm.get_relative_links('/path/to/dir/of/md/files/')
   >>> {
           PosixPath('index.md'): 
               [PosixPath('linkedto1.md'),
@@ -37,7 +37,7 @@ purposes such as visualization.
 
 ### Exclude markdown files
 ```
-  links = lm.get_relativized_links('/path/to/dir/of/md/files/', excluded_files=['index.md'])
+  links = lm.get_relative_links('/path/to/dir/of/md/files/', excluded_files=['index.md'])
   >>> {
           PosixPath('linkedto1.md'): [],
           PosixPath('subdir/linkedto2.md'): [PosixPath('linkedto1.md')],
@@ -48,7 +48,7 @@ purposes such as visualization.
 ```
 import matplotlib.pyplot as plt
 import networkx as nx
-links = lm.get_relativized_links('/path/to/dir/of/md/files/')
+links = lm.get_relative_links('/path/to/dir/of/md/files/')
 g = nx.from_dict_of_lists(links, nx.DiGraph)  # alternatively: nx.DiGraph(links)
 nx.draw_networkx(g, arrows=True)
 plt.show()

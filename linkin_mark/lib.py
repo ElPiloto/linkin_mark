@@ -14,7 +14,7 @@ Example usage:
                PosixPath('/path/to/dir/of/md/files/linkedto1.md')],
        }
 
-  links = lm.get_relativized_links('/path/to/dir/of/md/files/')
+  links = lm.get_relative_links('/path/to/dir/of/md/files/')
   >>> {
           PosixPath('index.md'): 
               [PosixPath('linkedto1.md'),
@@ -24,15 +24,15 @@ Example usage:
               [PosixPath('index.md'),
                PosixPath('linkedto1.md')],
        }
-  links = lm.get_relativized_links('/path/to/dir/of/md/files/',
-                                   excluded_files=['index.md'])
+  links = lm.get_relative_links('/path/to/dir/of/md/files/',
+                                excluded_files=['index.md'])
   >>> {
           PosixPath('linkedto1.md'): [],
           PosixPath('subdir/linkedto2.md'): [PosixPath('linkedto1.md')],
        }
 
 """
-from typing import Any, Callable, TypeVar
+from typing import Callable, TypeVar
 import os
 import pathlib
 
@@ -49,7 +49,7 @@ StrOrPath = str | pathlib.Path
 def get_links(
     root_dir: str,
     excluded_files: list[str] | None = None,
-) -> dict[pathlib.Path, list[pathlib.Path]]:
+) -> dict[str | pathlib.Path, list[str | pathlib.Path]]:
   """Finds links between markdown files."""
   if excluded_files is None:
     excluded_files = []
@@ -66,13 +66,13 @@ def get_links(
   return links_per_file
 
 
-def get_relativized_links(
+def get_relative_links(
     root_dir: str,
     excluded_files: list[str] | None = None,
-) -> dict[Any, list[pathlib.Path]]:
+) -> dict[StrOrPath, list[StrOrPath]]:
   """Finds links between markdown files and makes relative to root dir."""
   links = get_links(root_dir, excluded_files)
-  return relativize_links(links, root_dir)
+  return make_links_relative(links, root_dir)
 
 
 def list_markdown_files(root_dir: str) -> list[pathlib.Path]:
@@ -86,6 +86,13 @@ def parse_markdown(md_file: pathlib.Path | str) -> marko.block.Document:
   with open(md_file, 'r') as f:
     file_contents = f.read()
   return marko.parse(file_contents)
+
+
+def _ensure_md_extension(md_path: str) -> str:
+  """Makes sure md_path has `.md` extension."""
+  if not md_path.endswith('.md'):
+    md_path += '.md'
+  return md_path
 
 
 def is_internal_link(dest: str) -> bool:
@@ -104,7 +111,7 @@ def find_links(
   if isinstance(el, inline.Link):
     link = el.dest
     if is_internal_link(link):
-      links.append(link)
+      links.append(_ensure_md_extension(link))
   if isinstance(el, marko.block.BlockElement) and hasattr(el, 'children'):
     for c in el.children:
       links += find_links(c)
@@ -129,11 +136,13 @@ def apply_to_links(
   return applied
 
 
-def relativize_links(
+def make_links_relative(
     links: dict[StrOrPath, list[StrOrPath]],
     root_dir: StrOrPath
-) -> dict[pathlib.Path, list[pathlib.Path]]:
+) -> dict[StrOrPath, list[StrOrPath]]:
   """Converts source and target links to paths relative to root_dir."""
   def _relativize(l: StrOrPath) -> pathlib.Path:
+    if isinstance(l, str):
+      l = pathlib.Path(l)
     return l.relative_to(root_dir)
   return apply_to_links(_relativize, links)

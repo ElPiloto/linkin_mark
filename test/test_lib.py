@@ -35,8 +35,8 @@ class TestLinks(unittest.TestCase):
         'Did not find links in markdown files'
     )
 
-  def test_get_relativized_links(self):
-    links = lm.get_relativized_links(self.data_path)
+  def test_get_relative_links(self):
+    links = lm.get_relative_links(self.data_path)
     index_md = pathlib.Path('index.md')
     one_md = pathlib.Path('linkedto1.md')
     two_md = pathlib.Path(os.path.join('subdir', 'linkedto2.md'))
