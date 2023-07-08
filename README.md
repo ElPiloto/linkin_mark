@@ -1,7 +1,7 @@
 # linkin_mark
 
-Makes a graph of links in a set of markdown files.
-
+Creates a list of links in markdown files.  This can be used for downstream
+purposes such as visualization.
 
 # Usage
 

@@ -36,7 +36,6 @@ from typing import Any, Callable, TypeVar
 import os
 import pathlib
 
-import graphviz
 import marko
 from marko import inline
 from marko import element
