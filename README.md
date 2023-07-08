@@ -37,10 +37,20 @@ Makes a graph of links in a set of markdown files.
 
 ### Exclude markdown files
 ```
-  links = lm.get_relativized_links('/path/to/dir/of/md/files/',
-                                   excluded_files=['index.md'])
+  links = lm.get_relativized_links('/path/to/dir/of/md/files/', excluded_files=['index.md'])
   >>> {
           PosixPath('linkedto1.md'): [],
           PosixPath('subdir/linkedto2.md'): [PosixPath('linkedto1.md')],
-       }
+      }
+```
+
+### Visualization using networkx and matplotlib
+```
+import matplotlib.pyplot as plt
+import networkx as nx
+links = lm.get_relativized_links('/path/to/dir/of/md/files/')
+g = nx.from_dict_of_lists(links)
+nx.draw_networkx(g)
+plt.show()
+
 ```
