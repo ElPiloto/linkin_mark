@@ -49,8 +49,12 @@ Makes a graph of links in a set of markdown files.
 import matplotlib.pyplot as plt
 import networkx as nx
 links = lm.get_relativized_links('/path/to/dir/of/md/files/')
-g = nx.from_dict_of_lists(links)
-nx.draw_networkx(g)
+g = nx.from_dict_of_lists(links, nx.DiGraph)  # alternatively: nx.DiGraph(links)
+nx.draw_networkx(g, arrows=True)
 plt.show()
 
 ```
+![Example Graph](https://github.com/ElPiloto/linkin_mark/assets/629190/cdcb9254-4c09-4a1a-86d3-0deeec152129)
+
+
+
