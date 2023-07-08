@@ -1,1 +1,2 @@
-from linkin_mark.lib import links_to_graph 
+from linkin_mark.lib import get_links 
+from linkin_mark.lib import get_relativized_links 

@@ -5,12 +5,18 @@ description = "It's like Linkin Park but we mix links and markdown instead of ra
 authors = ["Luis Piloto <luis.r.piloto@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.10"
+python = "^3.10.0"
 marko = "^2.0.0"
 graphviz = "^0.20.1"
 
 [tool.poetry.dev-dependencies]
+python = "^3.10.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pyright]
+venvPath = "/Users/lpiloto/.pyenv/versions/3.10.3/envs/"
+venv = "linkin_mark"
+pythonVersion = "3.10"
